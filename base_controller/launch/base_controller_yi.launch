@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--######################################################################################-->
+<!--######################################################################################-->
+<launch>
+  <!--- Base_controller UsingYiBase(20170331) -->
+  <include file="$(find base_controller)/launch/base_driver_yi.launch" />
+
+  <!--- Nodelet_manager -->
+
+  <!--- Laser -->
+  <node pkg="urg_node" type="urg_node" name="hotel_urg_node" output="screen">
+    <remap from="/scan"             to="/base_scan" />
+    <param name="ip_address"        value="192.168.0.10"/>
+    <param name="frame_id"          value="laser_link"/>
+    <param name="publish_intensity" value="false"/>
+    <param name="publish_multiecho" value="false"/>
+    <!-- 2.1817 -->
+    <param name="angle_min"         value="-2.05"/>
+    <param name="angle_max"         value= "2.05"/>
+    <!-- limit beams number 501 [from 0 to 500] -->
+    <param name="cluster"           value="1"/>
+    <!-- limit raw scan publish frequency around 13Hz -->
+    <param name="skip"              value="0"/>
+  </node>
+
+  <!--- Robot_pose_ekf -->
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="hotel_robot_pose_ekf">
+	  <param name="output_frame"         value="odom"/>
+	  <param name="base_footprint_frame" value="base_link"/>
+	  <param name="freq"                 value="30.0"/>
+	  <param name="sensor_timeout"       value="1.0"/>
+	  <param name="odom_used"            value="true"/>
+	  <param name="imu_used"             value="false"/>
+	  <param name="vo_used"              value="false"/>
+	  <param name="debug"                value="false"/>
+	  <param name="self_diagnose"        value="false"/>
+  </node>
+
+
+  <!--- cmd_vel_mux and velocity_smoother -->
+  <include file="$(find cmd_vel_mux)/launch/cmd_vel_mux.launch" />
+  
+  <!--- Joystick -->
+  <include file="$(find teleop_joy)/launch/joystick_controller_xbox360.launch" />
+
+  <!--- Interactice_marker -->
+  <node pkg="base_controller" type="marker_controller.py" name="marker_controller">
+  </node>
+
+  <include file="$(find fetch_gazebo)/launch/freight.launch.xml" />
+
+  <!--- Rosbridge Websocket -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+
+  <!---Control with joystick
+  <arg name="joy_dev" default="/dev/input/js0" />
+  <arg name="config_filepath" default="$(find hotel_chassis)/launch/ps3_joystick.yaml" />
+  
+  <node pkg="joy" type="joy_node" name="joy_node">
+    <param name="dev" value="$(arg joy_dev)" />
+    <param name="deadzone" value="0.3" />
+    <param name="autorepeat_rate" value="20" />
+  </node>
+
+  <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
+    <rosparam command="load" file="$(arg config_filepath)" />
+  </node>
+    
+  <node pkg="ps3joy" type="ps3joy.py" name="teleop_ps3joy"  output="screen"/>-->
+
+</launch>

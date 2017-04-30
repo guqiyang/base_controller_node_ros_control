@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package>
+  <name>base_controller</name>
+  <version>0.0.0</version>
+  <description>The Base Controller Package</description>
+  <maintainer email="yonh_dee@hotmail.com">yonh_dee</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+
+  <build_depend>hardware_interface</build_depend>
+  <build_depend>ros_control</build_depend>
+  <build_depend>roscpp</build_depend>
+  <run_depend>hardware_interface</run_depend>
+  <run_depend>ros_control</run_depend>
+  <run_depend>roscpp</run_depend>
+
+  <build_depend>controller_manager</build_depend>
+  <run_depend>controller_manager</run_depend>
+
+  <build_depend>imu_sensor_controller</build_depend>
+  <run_depend>imu_sensor_controller</run_depend>
+
+  <export>
+  </export>
+</package>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!--node pkg="hotel_chassis" type="hotel_chassis" name="hotel_chassis_driver" output="screen">
+    <param name="distance_lr"             value="0.346" />
+    <param name="wheel_radius"              value="0.072" />
+    <param name="reduce_ratio"            value="20.0" />
+  </node-->
+
+  <node pkg="yi_chassis" type="yi_chassis" name="yi_chassis_driver" output="screen">
+    <param name="distance_lr"             value="0.346" />
+    <param name="wheel_radius"              value="0.072" />
+    <param name="reduce_ratio"            value="20.0" />
+    <param name="linear_velocity_x_max_limit"   value="0.6" />
+    <param name="angular_velocity_w_max_limit"  value="1.5" />
+    <param name="motor_deceleration"  value="4.0" />  
+    <param name="motor_acceleration"  value="4.0" />
+  </node>
+
+  <!--<node pkg="tf" type="static_transform_publisher" name="urg_tf" args="0.21 0 0.192 0 0 0 base_link laser_link 50"/>-->
+
+</launch>
