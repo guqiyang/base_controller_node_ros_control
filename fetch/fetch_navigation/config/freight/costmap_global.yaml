@@ -1,0 +1,13 @@
+resolution: 0.02
+
+plugins:
+ - {name: static_map, type: "costmap_2d::StaticLayer"}
+ - {name: obstacles,  type: "costmap_2d::VoxelLayer"}
+ - {name: inflater,   type: "costmap_2d::InflationLayer"}
+# - {name: voronoi_layer,  type: "voronoi_layer_namespace::VoronoiLayer"}  #
+# - {name: obstacle_layer, type: "voronoi_layer_namespace::ObstacleLayer"} #
+voronoi_layer:
+  enabled: true
+obstacle_layer:
+  footprint_clearing_enabled: false
+

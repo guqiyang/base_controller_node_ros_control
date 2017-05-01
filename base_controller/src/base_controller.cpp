@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 		robot.read();
 		cm.update(ts, d);
 		robot.write();
-
+		robot.writepwm();
 		rate.sleep();
 	}
 

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="map_file"   default="$(find yi_mapping)/maps/willow.yaml" />
+  <arg name="log_data"   default="false" />
+  <!--<arg name="log_prefix" default="$(find yi_data)/navigation/navigation" />-->
+
+  <!--- Load Map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <!--arg name="initial_pose_x" default="0.0"/--> <!-- Use 17.0 for  map in simulation -->
+    <!--arg name="initial_pose_y" default="0.0"/--> <!-- Use 17.0 for  map in simulation -->
+    <!--arg name="initial_pose_a" default="0.0"/-->
+  </node>
+
+  <!--- Run AMCL -->
+  <include file="$(find sim_gazebo)/launch/includes/amcl.xml"/>
+
+  <!--- Run move_base -->
+  <include file="$(find sim_gazebo)/launch/includes/move_base.xml"/>
+
+
+  <node pkg="rosbag" type="record" name="data_recorder"
+        args="-o $(arg log_prefix) -a"  if="$(arg log_data)" />
+
+
+  <!--- cmd_vel_mux and velocity_smoother -->
+  <include file="$(find cmd_vel_mux)/launch/cmd_vel_mux.launch" />
+  
+  <!--- Joystick -->
+  <include file="$(find teleop_joy)/launch/joystick_controller_xbox360.launch" />
+
+  <!--- Interactice_marker -->
+  <node pkg="base_controller" type="marker_controller.py" name="marker_controller">
+  </node>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find yi_viz)/config/nav.rviz"/> 
+</launch>
+

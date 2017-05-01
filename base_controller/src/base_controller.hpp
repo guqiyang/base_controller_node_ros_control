@@ -3,7 +3,8 @@
 #include <hardware_interface/robot_hw.h>
 #include <imu_sensor_controller/imu_sensor_controller.h>
 #include <math.h>
-
+#include <std_msgs/Int16.h>
+#include <ros/ros.h>
 #include <iostream>
 
 class MyRobot: public hardware_interface::RobotHW
@@ -72,6 +73,9 @@ public:
 		registerInterface(&jnt_vel_interface);
 		registerInterface(&jnt_eff_interface);
 		registerInterface(&imu_interface);
+		ros::NodeHandle nh;
+	    cmd_r = nh.advertise<std_msgs::Int16>("/cmd_vel/right",1); 
+        cmd_l =nh.advertise<std_msgs::Int16>("/cmd_vel/left",1);
 	}
 
 virtual ~MyRobot()
@@ -114,7 +118,18 @@ void read()
 	//std::cout<<"read vel"<<": "<<vel[0]<<" "<<vel[1]<<std::endl;
 	//std::cout<<"read eff"<<": "<<eff[0]<<" "<<eff[1]<<std::endl;
 }
+void writepwm()
+{
+	for(int i=0;i<2;i++)
+	{
+		pwm_cmd[i]=cmd_[i]*44.5;
+	    left.data = pwm_cmd[0];
+		right.data = pwm_cmd[1];
+		cmd_r.publish(left);
+		cmd_l.publish(right);
 
+	}
+}
 private:
 	hardware_interface::JointStateInterface jnt_state_interface;
 	hardware_interface::VelocityJointInterface jnt_vel_interface;
@@ -138,4 +153,11 @@ private:
 	double vel_fake[2];
 	double eff[2];
 	double eff_fake[2];
+	float  pwm_cmd[2];
+
+    std_msgs::Int16 left;
+    std_msgs::Int16 right;
+
+    ros::Publisher cmd_r ;
+    ros::Publisher cmd_l;
 };
