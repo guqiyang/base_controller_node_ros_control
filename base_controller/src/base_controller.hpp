@@ -123,8 +123,8 @@ void writepwm()
 	for(int i=0;i<2;i++)
 	{
 		pwm_cmd[i]=cmd_[i]*44.5;
-	    left.data = pwm_cmd[0];
-		right.data = pwm_cmd[1];
+	    left.data = pwm_cmd[1];
+		right.data = pwm_cmd[0];
 		cmd_r.publish(left);
 		cmd_l.publish(right);
 
