@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find teleop_joy)/launch/joystick_driver0.launch" />
+	
+	<node name="joystick_controller_xbox360" pkg="teleop_joy" type="joystick_controller.py" output="screen" />
+
+</launch>
